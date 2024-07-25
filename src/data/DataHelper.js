@@ -149,53 +149,6 @@ export function getLiftedIndex(index) {
   return item ? item.description : "Description not found";
 }
 
-export function addHoursToTimePoint(initialDateStr, hoursToAdd) {
-  // Parse the initial date and time string
-  const initialDate = new Date(
-    `${initialDateStr.slice(0, 4)}-${initialDateStr.slice(
-      4,
-      6
-    )}-${initialDateStr.slice(6, 8)}T${initialDateStr.slice(8, 10)}:00:00`
-  );
-
-  // Add hours to the date
-  const newDate = new Date(initialDate.getTime() + hoursToAdd * 60 * 60 * 1000);
-
-  // Format the new date to "YYYYMMDDHH" format
-  const formattedDate = `${newDate.getFullYear()}${String(
-    newDate.getMonth() + 1
-  ).padStart(2, "0")}${String(newDate.getDate()).padStart(2, "0")}${String(
-    newDate.getHours()
-  ).padStart(2, "0")}`;
-
-  return formattedDate;
-}
-
-export function extractDateInfo(dateStr) {
-  // Parse the initial date and time string into a JavaScript Date object
-  const date = new Date(
-    `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(
-      6,
-      8
-    )}T${dateStr.slice(8, 10)}:00:00`
-  );
-
-  // Extract year, month, day, hour, and day of the week
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1; // Months are 0-based in JavaScript
-  const day = date.getDate();
-  const hour = date.getHours();
-  const dayOfWeek = date.toLocaleDateString("pt-BR", { weekday: "long" }); // Full name of the day of the week
-
-  return {
-    year,
-    month,
-    day,
-    hour,
-    dayOfWeek,
-  };
-}
-
 export function addHoursAndExtractInfo(dateStr, hoursToAdd) {
   // Parse the initial date and time string into a JavaScript Date object
   const initialDate = new Date(
@@ -217,4 +170,79 @@ export function addHoursAndExtractInfo(dateStr, hoursToAdd) {
   const dayOfWeek = newDate.toLocaleDateString("pt-BR", { weekday: "long" }); // Full name of the day of the week
 
   return [`${hour}h - ${dayOfWeek}, dia ${day} de ${descMonth} de ${year}`];
+}
+
+// Not used but keeped for future needs
+
+// export function addHoursToTimePoint(initialDateStr, hoursToAdd) {
+//   // Parse the initial date and time string
+//   const initialDate = new Date(
+//     `${initialDateStr.slice(0, 4)}-${initialDateStr.slice(
+//       4,
+//       6
+//     )}-${initialDateStr.slice(6, 8)}T${initialDateStr.slice(8, 10)}:00:00`
+//   );
+
+//   // Add hours to the date
+//   const newDate = new Date(initialDate.getTime() + hoursToAdd * 60 * 60 * 1000);
+
+//   // Format the new date to "YYYYMMDDHH" format
+//   const formattedDate = `${newDate.getFullYear()}${String(
+//     newDate.getMonth() + 1
+//   ).padStart(2, "0")}${String(newDate.getDate()).padStart(2, "0")}${String(
+//     newDate.getHours()
+//   ).padStart(2, "0")}`;
+
+//   return formattedDate;
+// }
+
+// export function extractDateInfo(dateStr) {
+//   // Parse the initial date and time string into a JavaScript Date object
+//   const date = new Date(
+//     `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(
+//       6,
+//       8
+//     )}T${dateStr.slice(8, 10)}:00:00`
+//   );
+
+//   // Extract year, month, day, hour, and day of the week
+//   const year = date.getFullYear();
+//   const month = date.getMonth() + 1; // Months are 0-based in JavaScript
+//   const day = date.getDate();
+//   const hour = date.getHours();
+//   const dayOfWeek = date.toLocaleDateString("pt-BR", { weekday: "long" }); // Full name of the day of the week
+
+//   return {
+//     year,
+//     month,
+//     day,
+//     hour,
+//     dayOfWeek,
+//   };
+// }
+
+// WEATHER CIVIL
+
+export function getDateDetailsWeatherCivil(dateInt) {
+  // Convert the integer to a string
+  const dateString = dateInt.toString();
+  const year = dateString.substring(0, 4);
+  const month = dateString.substring(4, 6);
+  const day = dateString.substring(6, 8);
+
+  const date = new Date(`${year}-${month}-${day}`);
+
+  const weekdayFormatter = new Intl.DateTimeFormat("pt-BR", {
+    weekday: "long",
+  });
+  const dayFormatter = new Intl.DateTimeFormat("pt-BR", { day: "2-digit" });
+  const monthFormatter = new Intl.DateTimeFormat("pt-BR", { month: "long" });
+  const yearFormatter = new Intl.DateTimeFormat("pt-BR", { year: "numeric" });
+
+  return {
+    weekday: weekdayFormatter.format(date),
+    day: dayFormatter.format(date),
+    month: monthFormatter.format(date),
+    year: yearFormatter.format(date),
+  };
 }

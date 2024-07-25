@@ -6,10 +6,14 @@ import DetailScreen from "./src/screens/DetailScreen";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
+
   return (
     <NavigationContainer>
       <StatusBar style="auto" />
-      <Stack.Navigator>
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{ headerShown: false }}
+      >
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Detail" component={DetailScreen} />
       </Stack.Navigator>
